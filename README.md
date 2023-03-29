@@ -1,6 +1,17 @@
-![banner](./banner.jpg)
-
 # How To Code a To-do List App
+
+
+### Introduction
+
+What you will build in this tutorial is a to-do list app. You will quickly see that you only need to define a few simple methods and attributes to have all required functionalities of a to-do list app:
+
+- Create a to-do item
+- Edit to-do item text
+- Mark a to-do item as completed
+- Show that a to-do item is complete with a strike through the to-do item text
+- Delete a to-do item
+
+In order to quickly churn-out a working app, we will use existing tools to help us create a low-code app so that we don't get overwhelmed reinventing the wheel. This will make more sense as we progress through the tutorial.
 
 ### Project Setup
 
@@ -25,8 +36,6 @@ In a terminal window, run the following commands to download the project to your
 
 ### Create the TodoItem Model
 
-In the `code/todo/models.py` file we will define all objects called `Models` - this is a place in which we will define our to-do item.
-
 Let's open the `code/todo/models.py` in the code editor, remove everything from it, and write code like this:
 
 ```python
@@ -37,26 +46,17 @@ class TodoItem(models.Model):
     done = models.BooleanField(default=False)
 ```
 
-All lines starting with `from` or `import` are lines that add some bits from other files. So instead of copying and pasting the same things in every file, we can include some parts with `from ... import ...`
+Here we defined two different attributes that each to-do item should have: 
+- `text`: A short description of the to-do item. For example, "Do math homework".
+- `done`: A flag that will be used to mark if the to-do item has been completed. It will be set to `True` if it has been completed, and `False` otherwise.
 
-`class TodoItem(models.Model):` - this line defines our model.
-
-- `class` is a special keyword that indicates that we are defining an object.
-- `TodoItem` is the name of our model. We can give it a different name (but we must avoid special characters and whitespace). Always start a class name with an uppercase letter.
-- `models.Model` means that the `TodoItem` is a Django Model, so Django knows that it should be saved in the database.
-
-We also defined two different attributes that each to-do item should have: `text` and `done`. The data field types of each of these attributes are the following:
-
-- `models.CharField` - this is how you define text with a limited number of characters.
-- `models.BooleanField` - this is how you define values that can either be `True` or `False`.
-
-In a separate terminal window from where you ran the `docker-compose` command, run the following:
+In a separate terminal window from where you ran the `docker-compose` command, run the following command to tell your app that you've made changes to what your database should look like:
 
 ```bash
 ./manage.sh makemigrations
 ```
 
-You should see something similar to the following:
+You should see something like this:
 
 ```
 Migrations for 'todo':
@@ -64,13 +64,7 @@ Migrations for 'todo':
     - Create model TodoItem
 ```
 
-By running `makemigrations`, you're telling Django that you've made some changes to your models (in this case, you've made new ones) and that you'd like the changes to be stored as a _migration_.
-
-Migrations are how Django stores changes to your models (and thus your database schema) - they're files on disk. You can read the migration for your model if you like; it's the file `todo/migrations/0001_initial.py`. Don't worry, you're not expected to read them every time Django makes one, but they're designed to be human-editable in case you want to manually tweak how Django changes things.
-
-There's a command that will run the migrations for you and manage your database schema automatically - that's called `migrate`.
-
-Now, run `migrate` again to create those model tables in your database:
+Now, run the following command to make those changes in the database:
 
 ```bash
 ./manage.sh migrate
@@ -86,57 +80,27 @@ Running migrations:
   Applying todo.0001_initial... OK
 ```
 
-The `migrate` command takes all the migrations that haven't been applied (Django tracks which ones are applied using a special table in your database called `django_migrations`) and runs them against your database - essentially, synchronizing the changes you made to your models with the schema in the database.
+In general, if you ever want to make changes to your `models.py` file, you should follow the steps we just did:
 
-If you ever want to make future changes to your `models.py` file again, remember the three-step guide to making model changes:
+1.  Change your models (in `models.py`)
+2.  Run `./manage.sh makemigrations`
+3.  Run `./manage.sh migrate` 
 
-- Change your models (in `models.py`).
-- Run `python manage.py makemigrations` to create migrations for those changes
-- Run `python manage.py migrate` to apply those changes to the database.
+### Using the app
 
-### Playing with the API
-
-Now, let’s hop into the interactive Python shell and play around with the free API Django gives you. To invoke the Python shell, use this command:
-
-```bash
-./manage.sh shell
-```
-
-Once you’re in the shell, explore the database API:
-
+Add the following code to `code/todo/admin.py`
 ```python
-# Import the model classes we just wrote.
->>> from todo.models import TodoItem  
+from django.contrib import admin
 
-# No todo items are in the system yet.
->>> TodoItem.objects.all()
-<QuerySet []>
+from .models import TodoItem
 
-# Create a new TodoItem.
->>> t = TodoItem(text="Go for a run", done=False)
-
-# Save the object into the database. You have to call save() explicitly.
->>> t.save()
-
-# Now it has an ID.
->>> t.id
-1
-
-# Access model field values via Python attributes.
->>> t.text
-'Go for a run'
-
-# Change values by changing the attributes, then calling save().
->>> t.text = 'Go to the gym'
->>> t.save()
-
-# objects.all() displays all the todo items in the database.
->>> TodoItem.objects.all()
-<QuerySet [<TodoItem: TodoItem object (1)>]>
-
-# Exit out of your Python shell
->>> exit()
+admin.site.register(TodoItem)
 ```
+- With the server running, open `http://0.0.0.0:8000/admin` and login using `admin` as the username and `1234` as the password.
+- Use the app to create a new to-do item
+- You should now see the following:
+
+![added](./added.png)
 
 Wait a minute. `<TodoItem: TodoItem object (1)>` isn’t a helpful representation of this object. Let’s fix that by editing the `TodoItem` model (in the `code/todo/models.py` file) and adding a `__str__()` method to `TodoItem`:
 
@@ -149,23 +113,13 @@ class TodoItem(models.Model):
         return self.text
 ```
 
-It’s important to add `__str__()` methods to your models, not only for your own convenience when dealing with the interactive prompt, but also because objects’ representations are used throughout Django’s automatically-generated admin.
+It’s important to add `__str__()` methods to your models for your own convenience so it's easier to tell what object you're looking at.
 
-Run `./manage.sh shell` again:
+You should see your to-do item change from `<TodoItem: TodoItem object (1)>` to `Go to the gym` in your list of to-do items:
 
-```python
-# Import the model class
->>> from todo.models import TodoItem
+![added2](./added2.png)
 
-# Make sure our __str__() addition worked.
->>> TodoItem.objects.all()
-<QuerySet [<TodoItem: Go to the gym>]>
-
-# Exit out of your Python shell
->>> exit()
-```
-
-Let’s update the contents of `code/todo/models.py` to:
+Now, we are going to write some code so that any items marked as done are crossed out. Let’s update the contents of `code/todo/models.py` to:
 
 ```python
 from django.db import models
@@ -188,39 +142,28 @@ class TodoItem(models.Model):
         else:
             return self.text
 ```
+Using the app, edit the to-do item and click on the checkbox to mark it as done.
 
-Start a new Python interactive shell by running `./manage.sh shell` again:
+![done](./done.png)
 
-```python
-# Import the model class
->>> from todo.models import TodoItem
+If you go back to your list of to-do items, you should see your item crossed out because it was marked as done.
 
-# Make sure our custom method worked.
->>> t = TodoItem.objects.get(id=1)
->>> t.striked_text
-G̶o̶ ̶t̶o̶ ̶t̶h̶e̶ ̶g̶y̶m̶
 
-# Request an ID that doesn't exist, this will raise an exception.
->>> TodoItem.objects.get(id=2)
-Traceback (most recent call last):
-    ...
-DoesNotExist: TodoItem matching query does not exist.
+### Practice makes perfect
 
-# Create three todo items. The create call constructs a new
-# TodoItem object, and saves to the database in one step
->>> TodoItem.create(text='Cook dinner', done=True)
-<TodoItem: C̶o̶o̶k̶ ̶d̶i̶n̶n̶e̶r̶>
->>> TodoItem.create(text='Take out the trash', done=False)
-<Choice: Take out the trash>
+If this was your first time coding an app, chances are that this was a lot to take in. We recommend that you do the following steps to reset your project and go through the tutorial as many times as it takes for these concepts to sink in. In a separate terminal window, run the following:
 
-# Another useful function is the ability to filter objects by its attributes:
-# First show all todo items
->>> TodoItem.objects.all()
-<QuerySet [<TodoItem: G̶o̶ ̶t̶o̶ ̶g̶y̶m̶>, <TodoItem: Cook dinner>, <TodoItem: Take out the trash>]>
+```bash
+# Reset your code
+git stash
 
-# Filter todo items by those marked as done
->>> TodoItem.objects.filter(done=True)
-<QuerySet [<TodoItem: G̶o̶ ̶t̶o̶ ̶g̶y̶m̶>]>
+# Remove your project
+docker system prune -a
+
+# Delete your database
+rm code/db.sqlite3
 ```
 
-Note: Some of the content in this document was taken from tutorials on the Django website https://www.djangoproject.com/ and Django Girls https://djangogirls.org/en/
+### Real-World Application
+
+One of the companies that I worked for used the Django admin to manage their entire backend infrastructure. They did this by extending the functionality of the default interface to do what they wanted and was practical for their use case. If a team was tasked with building the entire application from scratch themselves, then it would have taken them much more time and probably would not have been as robust as if they built off an already trusted system like Django.
