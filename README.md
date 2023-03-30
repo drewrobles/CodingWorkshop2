@@ -148,6 +148,53 @@ Using the app, edit the to-do item and click on the checkbox to mark it as done.
 
 If you go back to your list of to-do items, you should see your item crossed out because it was marked as done.
 
+### Playing with the API
+
+Now, let’s hop into the interactive Python shell and play around with the free API Django gives you. This is what we will use to build a custom to-do app later on. To invoke the Python shell, use this command:
+
+```bash
+./manage.sh shell
+```
+
+Once you’re in the shell, explore the database API:
+
+```python
+# Import the model class
+>>> from todo.models import TodoItem
+
+# Delete all to-do items
+>>> [ t.delete() for t in TodoItem.objects.all() ]
+
+# Create a todo item already marked as done
+>>> t = TodoItem.objects.create(text="Do math homework", done=True)
+
+# Make sure our custom method worked.
+>>> t.striked_text
+G̶o̶ ̶t̶o̶ ̶t̶h̶e̶ ̶g̶y̶m̶
+
+# Request an ID that doesn't exist, this will raise an exception.
+>>> TodoItem.objects.get(id=2)
+Traceback (most recent call last):
+    ...
+DoesNotExist: TodoItem matching query does not exist.
+
+# Create three todo items. The create call constructs a new
+# TodoItem object, and saves to the database in one step
+>>> TodoItem.create(text='Cook dinner', done=True)
+<TodoItem: C̶o̶o̶k̶ ̶d̶i̶n̶n̶e̶r̶>
+>>> TodoItem.create(text='Take out the trash', done=False)
+<Choice: Take out the trash>
+
+# Another useful function is the ability to filter objects by its attributes:
+# First show all todo items
+>>> TodoItem.objects.all()
+<QuerySet [<TodoItem: G̶o̶ ̶t̶o̶ ̶g̶y̶m̶>, <TodoItem: Cook dinner>, <TodoItem: Take out the trash>]>
+
+# Filter todo items by those marked as done
+>>> TodoItem.objects.filter(done=True)
+<QuerySet [<TodoItem: G̶o̶ ̶t̶o̶ ̶g̶y̶m̶>]>
+```
+
 
 ### Practice makes perfect
 
