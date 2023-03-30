@@ -32,7 +32,7 @@ In a terminal window, run the following commands to download the project to your
 - Open up a terminal window by going to `View > Terminal`
 - Start the project by running `docker-compose up` and opening the URL in a Google Chrome browser window provided in the terminal output - http://0.0.0.0:8000/
 - You should see something like this:
-  ![install-worked](./install-worked.png)
+  ![install-worked](./screenshots/install-worked.png)
 
 ### Create the TodoItem Model
 
@@ -100,7 +100,7 @@ admin.site.register(TodoItem)
 - Use the app to create a new to-do item
 - You should now see the following:
 
-![added](./added.png)
+![added](./screenshots/added.png)
 
 Wait a minute. `<TodoItem: TodoItem object (1)>` isn’t a helpful representation of this object. Let’s fix that by editing the `TodoItem` model (in the `code/todo/models.py` file) and adding a `__str__()` method to `TodoItem`:
 
@@ -117,7 +117,7 @@ It’s important to add `__str__()` methods to your models for your own convenie
 
 You should see your to-do item change from `<TodoItem: TodoItem object (1)>` to `Go to the gym` in your list of to-do items:
 
-![added2](./added2.png)
+![added2](./screenshots/added2.png)
 
 Now, we are going to write some code so that any items marked as done are crossed out. Let’s update the contents of `code/todo/models.py` to:
 
@@ -144,7 +144,7 @@ class TodoItem(models.Model):
 ```
 Using the app, edit the to-do item and click on the checkbox to mark it as done.
 
-![done](./done.png)
+![done](./screenshots/done.png)
 
 If you go back to your list of to-do items, you should see your item crossed out because it was marked as done.
 
