@@ -12,3 +12,6 @@ What you will build in this tutorial is a to-do list web application. The app wi
 We will use something called the Django Web Framework to quick churn-out a working app as quickly as possible.
 
 ### Table of Contents
+
+[Step 0 - Project Setup](step-0-project-setup.md)
+[Step 1 - Coding a To-do Item](step-1-coding-a-to-do-item.md)
