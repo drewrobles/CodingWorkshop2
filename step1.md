@@ -1,18 +1,5 @@
 # Coding a TodoItem
 
-In a terminal window, run the following commands to download the project to your `Desktop` folder:
-
-  ```bash
-  cd ~/Desktop
-  git clone https://github.com/andrewrobles/MyApp.git
-  ```
-
-- Open up the project in Visual Studio Code by going to `File > Open` and navigating to `~/Desktop/MyApp`
-- Enable auto save by going to `File > Auto Save`
-- Open up a terminal window by going to `View > Terminal`
-- Start the project by running `docker-compose up` and opening the URL in a Google Chrome browser window provided in the terminal output - http://0.0.0.0:8000/
-- You should see something like this:
-  ![install-worked](./screenshots/install-worked.png)
 
 ### Create the TodoItem Model
 
