@@ -13,5 +13,5 @@ We will use something called the Django Web Framework to quick churn-out a worki
 
 ### Table of Contents
 
-- [Step 0 - Project Setup](step-0-project-setup.md)
-- [Step 1 - Coding a To-do Item](step-1-coding-a-to-do-item.md)
+- [Step 0 - Project Setup](step0.md)
+- [Step 1 - Coding a To-do Item](step1.md)
