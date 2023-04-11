@@ -1,7 +1,4 @@
-# Coding a TodoItem
-
-
-### Create the TodoItem Model
+# Step 1 - Store Information In Your Database 
 
 Let's open the `MyApp/models.py` file in the code editor, remove everything from it, and write code like this:
 
@@ -13,10 +10,11 @@ class ToDoItem(models.Model):
     done = models.BooleanField(default=False)
 ```
 
-In a separate terminal window from where you ran the `docker-compose` command, run the following command to tell your app that you've made changes to what your database should look like:
+In a separate terminal window from where you ran the `python manage.py runserver` command, run the following commands to start a virtual environment then tell your app that you've made changes to what your database should look like:
 
 ```bash
-./manage.sh makemigrations
+source VirtualEnvironment/bin/activate
+python manage.py makemigrations
 ```
 
 You should see something like this:
@@ -30,7 +28,7 @@ Migrations for 'todo':
 Now, run the following command to make those changes in the database:
 
 ```bash
-./manage.sh migrate
+python manage.py migrate
 ```
 
 You should see something similar to the following:
@@ -45,7 +43,7 @@ Running migrations:
 
 ### Using the app
 
-Add the following code to `code/todo/admin.py`
+Add the following code to `MyApp/admin.py`
 ```python
 from django.contrib import admin
 
@@ -53,13 +51,17 @@ from .models import TodoItem
 
 admin.site.register(TodoItem)
 ```
-- With the server running, open `http://0.0.0.0:8000/admin` and login using `admin` as the username and `1234` as the password.
-- Use the app to create a new to-do item
+- Run the following command to create a user and provide a username and password
+```bash
+python manage.py createsuperuser
+```
+- With the server running, open `http://127.0.0.1:8000/admin` and login using the username and password you entered in the previous step
+- Use the app to create a few to-do items! Examples of some good ones are "Cook some delicious food", and "Eat some delicious food"
 - You should now see the following:
 
 ![added](./screenshots/added.png)
 
-Wait a minute. `<TodoItem: TodoItem object (1)>` isn’t a helpful representation of this object. Let’s fix that by editing the `TodoItem` model (in the `code/todo/models.py` file) and adding a `__str__()` method to `TodoItem`:
+Wait a minute. `<TodoItem: TodoItem object (1)>` isn’t a helpful representation of this object. Let’s fix that by editing the `TodoItem` model (in the `MyApp/models.py` file) and adding a `__str__()` method to `TodoItem`:
 
 ```python
 from django.db import models

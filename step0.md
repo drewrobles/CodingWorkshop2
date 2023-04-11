@@ -1,4 +1,4 @@
-# Step 0 - Setup Your Computer to Build Apps
+# Step 0 - Set Up Your Computer to Build Apps
 
 Download and install the following required software if you don't already have them:
   - **Git** - [git-scm.com/downloads](https://git-scm.com/downloads)
@@ -36,7 +36,7 @@ python manage.py migrate
 ```bash
 python manage.py runserver
 ```
-- Open the URL in a browser window provided in the terminal output - http://127.0.0.1:8000/
+- Open the URL in a browser window provided in the terminal output - http://127.0.0.1:8000
 - You should see something like this:
   ![install-worked](./screenshots/install-worked.png)
 
