@@ -1,4 +1,4 @@
-Now, we are going to write some code so that any items marked as done are crossed out. Let’s update the contents of `code/todo/models.py` to:
+Now, we are going to write some code so that any items marked as done are crossed out. Let’s update the contents of `MyApp/models.py` to:
 
 ```python
 from django.db import models
