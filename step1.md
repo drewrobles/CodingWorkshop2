@@ -16,19 +16,15 @@ In a terminal window, run the following commands to download the project to your
 
 ### Create the TodoItem Model
 
-Let's open the `code/todo/models.py` in the code editor, remove everything from it, and write code like this:
+Let's open the `MyApp/models.py` file in the code editor, remove everything from it, and write code like this:
 
 ```python
 from django.db import models
 
-class TodoItem(models.Model):
+class ToDoItem(models.Model):
     text = models.CharField(max_length=200)
     done = models.BooleanField(default=False)
 ```
-
-Here we defined two different attributes that each to-do item should have: 
-- `text`: A short description of the to-do item. For example, "Do math homework".
-- `done`: A flag that will be used to mark if the to-do item has been completed. It will be set to `True` if it has been completed, and `False` otherwise.
 
 In a separate terminal window from where you ran the `docker-compose` command, run the following command to tell your app that you've made changes to what your database should look like:
 
@@ -59,12 +55,6 @@ Running migrations:
   Rendering model states... DONE
   Applying todo.0001_initial... OK
 ```
-
-In general, if you ever want to make changes to your `models.py` file, you should follow the steps we just did:
-
-1.  Change your models (in `models.py`)
-2.  Run `./manage.sh makemigrations`
-3.  Run `./manage.sh migrate` 
 
 ### Using the app
 
