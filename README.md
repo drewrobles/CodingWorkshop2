@@ -1,17 +1,15 @@
-# How To Code a To-do List App
-
 ### Introduction
 
-What you will build in this tutorial is a to-do list web application. The app will allow the user to: 
+This workshop will walk you through building a to-do list app that does the following: 
 
-- Create a to-do item
-- Edit to-do item text
-- Mark a to-do item as completed
-- Delete a to-do item
-
-We will use something called the Django Web Framework to quick churn-out a working app as quickly as possible.
+- Creates a to-do item
+- Edits to-do item text
+- Marks a to-do item as completed
+- Deletes a to-do item
 
 ### Table of Contents
+
+Click on the links to go through the different steps:
 
 - [Step 0 - Project Setup](step0.md)
 - [Step 1 - Coding a To-do Item](step1.md)
