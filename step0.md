@@ -1,4 +1,4 @@
-### Project Setup
+# Step 0 - Setup Your Computer to Build Apps
 
 Download and install the following required software if you don't already have them:
   - **Git** - [git-scm.com/downloads](https://git-scm.com/downloads)
